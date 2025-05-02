@@ -1,0 +1,94 @@
+<div class="container" *ngIf="!isPaymentModalVisible">
+    <h2>Repayment Details</h2>
+
+    <div class="mb-3">
+        <label for="userSelect" class="form-label">Select User:</label>
+        <select id="userSelect" [(ngModel)]="userId" name="userId"
+            (change)="loadRepaymentSchedule(); loadOutstandingBalance()" class="form-select">
+            <option value="user1@gmail.com">user1gmail.com</option>
+            <option value="user2@gmail.com">user2gmail.com</option>
+            <option value="user3@gmail.com">user3gmail.com</option>
+        </select>
+    </div>
+    <p class="balance alert alert-info">
+        <strong class="p-2 m-1">Total Outstanding Payment (PENDING):</strong>
+        {{ outstandingBalance | currency: 'INR' }}
+    </p>
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>S.NO</th>
+                    <th>RepaymentId</th>
+                    <th>MonthlyDue</th>
+                    <th>Principal Repayment</th>
+                    <th>Interest</th>
+                    <th>Outstanding Balance</th>
+                    <th>Due Date</th>
+                    <th>Payment Date</th>
+                    <th>
+                        Status
+                        <button class="btn btn-sm btn-link" (click)="toggleStatusFilter()">
+                            <i style="background-color: black;"
+                                [ngClass]="{'bi bi-caret-down-fill': !isFilteringPending, 'bi bi-caret-up-fill': isFilteringPending}"></i>
+                        </button>
+                    </th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="!filteredRepayments || filteredRepayments.length === 0">
+                    <td colspan="10" class="text-center">No Data Available</td>
+                </tr>
+                <tr *ngFor="let repayment of filteredRepayments; let i = index">
+                    <td data-label="S.NO">{{ i + 1 }}</td>
+                    <td data-label="RepaymentId">{{ repayment.repaymentId }}</td>
+                    <td data-label="MonthlyDue">{{ repayment.monthPay }}</td>
+                    <td data-label="Principal Repayment">
+                        {{ repayment.principalRepayment | currency: 'INR' }}
+                    </td>
+                    <td data-label="Interest">{{ repayment.interest | currency: 'INR' }}</td>
+                    <td data-label="Outstanding Balance">
+                        {{ repayment.outstandingBalance | currency: 'INR' }}
+                    </td>
+                    <td data-label="Due Date">
+                        <span class="badge bg-danger">{{ repayment.dueDate | date: 'yyyy-MM-dd' }}</span>
+                    </td>
+                    <td data-label="Payment Date">
+                        <span class="badge bg-primary">
+                            {{
+                            repayment.paymentDate ? (repayment.paymentDate | date: 'yyyy-MM-dd') :
+                            'N/A'
+                            }}
+                        </span>
+                    </td>
+                    <td data-label="Status">
+                        <span class="badge"
+                            [ngClass]="{'bg-success': repayment.status === 'COMPLETED', 'bg-warning': repayment.status === 'PENDING'}">
+                            {{ repayment.status }}
+                        </span>
+                    </td>
+                    <td data-label="Actions">
+                        <ng-container *ngIf="repayment.status === 'PENDING'; else paidTemplate">
+                            <button 
+                                [disabled]="!canMakePayment(i)" 
+                                (click)="makePayment(repayment.repaymentId, repayment.monthPay, userId)"
+                                class="btn btn-success btn-sm">
+                                <span class="badge">Make Payment</span>
+                            </button>
+                        </ng-container>
+                        <ng-template #paidTemplate>
+                            <span class="badge bg-success">Paid</span>
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div *ngIf="isPaymentModalVisible">
+    <app-payment [repaymentId]="repaymentId" [amountDue]="amountDue" [userId]="userId"
+        (paymentCompleted)="onPaymentCompleted($event)" (paymentCancelled)="onPaymentCancelled()">
+    </app-payment>
+</div>

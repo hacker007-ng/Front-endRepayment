@@ -1,0 +1,109 @@
+<form #paymentForm="ngForm">
+    <div class="alert alert-success alert-dismissible fade show custom-alert" style="width: 65%;" role="alert"
+        *ngIf="currentStep === 'success'">
+        Payment successfully completed!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div class="alert alert-red alert-dismissible fade show custom-alert" style="width: 65%;" role="alert"
+        *ngIf="currentStep === 'Failed'">
+        Payment Failed
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <div class="payment-container d-flex justify-content-center align-items-center" *ngIf="repaymentId"
+        style="min-height: 400px;">
+        <div class="card shadow-lg mt-5" style="max-width: 500px; width: 100%;">
+            <div class="card-body p-4">
+                <h2 class="card-title text-center mb-4">Payment Options</h2>
+                <p *ngIf="amountDue" class="alert alert-info text-center">Amount Due: {{ amountDue | currency:'INR' }}
+                </p>
+
+                <div *ngIf="currentStep === 'selection' && !paymentSuccess">
+                    <p class="text-center">Select a payment method:</p>
+                    <div class="d-flex flex-wrap justify-content-around gap-3 mb-3">
+                        <div *ngFor="let option of paymentOptions; let i = index" class="card payment-option"
+                            [class.border-primary]="selectedPaymentOption === option"
+                            (click)="selectPaymentOption(option)" style="width: 120px; cursor: pointer;">
+                            <div class="card-body text-center">
+                                <i [ngClass]="getPaymentIcon(option)" style="font-size: 2em; margin-bottom: 0.5em;"></i>
+                                <h6 class="card-title mb-0">{{ option }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-secondary" (click)="cancelPayment()">Cancel</button>
+                </div>
+
+                <div *ngIf="currentStep === 'details' && selectedPaymentOption && !paymentSuccess">
+                    <h3 class="mb-3">Enter {{ selectedPaymentOption }} Details</h3>
+                    <div class="mb-3"
+                        *ngIf="selectedPaymentOption === 'Credit Card' || selectedPaymentOption === 'Debit Card'">
+                        <label for="cardholderName" class="form-label">Cardholder Name:</label>
+                        <input type="text" id="cardholderName" [(ngModel)]="creditCardDetails.cardholderName"
+                            name="cardholderName" class="form-control" required>
+                    </div>
+                    <div class="mb-3"
+                        *ngIf="selectedPaymentOption === 'Credit Card' || selectedPaymentOption === 'Debit Card'">
+                        <label for="cardNumber" class="form-label">Card Number:</label>
+                        <input type="text" id="cardNumber" [(ngModel)]="creditCardDetails.cardNumber" name="cardNumber"
+                            class="form-control" required>
+                    </div>
+                    <div class="row mb-3"
+                        *ngIf="selectedPaymentOption === 'Credit Card' || selectedPaymentOption === 'Debit Card'">
+                        <div class="col-md-6">
+                            <label for="expiry" class="form-label">Expiry (MM/YY):</label>
+                            <input type="text" id="expiry" [(ngModel)]="creditCardDetails.expiry" name="expiry"
+                                class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cvv" class="form-label">CVV:</label>
+                            <input type="text" id="cvv" [(ngModel)]="creditCardDetails.cvv" name="cvv"
+                                class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3" *ngIf="selectedPaymentOption === 'UPI'">
+                        <label for="upiId" class="form-label">UPI ID:</label>
+                        <input type="text" id="upiId" [(ngModel)]="upiDetails.upiId" name="upiId" class="form-control"
+                            required>
+                        <small class="form-text text-muted">e.g., yournamepaytm, yourmobilegpay</small>
+                    </div>
+                    <div class="mb-3" *ngIf="selectedPaymentOption === 'Net Banking'">
+                        <label for="bankName" class="form-label">Select Bank:</label>
+                        <select id="bankName" [(ngModel)]="netBankingDetails.bankName" name="bankName"
+                            class="form-select" required>
+                            <option value="">-- Select Bank --</option>
+                            <option value="SBI">State Bank of India</option>
+                            <option value="ICICI">ICICI Bank</option>
+                            <option value="HDFC">HDFC Bank</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" *ngIf="selectedPaymentOption === 'Wallet'">
+                        <label for="walletType" class="form-label">Select Wallet:</label>
+                        <select id="walletType" [(ngModel)]="walletDetails.walletType" name="walletType"
+                            class="form-select" required>
+                            <option value="">-- Select Wallet --</option>
+                            <option value="Paytm">Paytm</option>
+                            <option value="PhonePe">PhonePe Wallet</option>
+                            <option value="Mobikwik">Mobikwik</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary me-2" [disabled]="!paymentForm.valid"
+                            (click)="initiatePayment()">Pay
+                            {{ amountDue | currency:'INR' }}</button>
+                        <button class="btn btn-outline-secondary" (click)="goBackToSelection()">Back</button>
+                    </div>
+                </div>
+
+                <div *ngIf="currentStep === 'processing'">
+                    <p class="text-center">Processing payment...</p>
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
