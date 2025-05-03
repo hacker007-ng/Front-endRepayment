@@ -10,9 +10,12 @@
             <option value="user3@gmail.com">user3gmail.com</option>
         </select>
     </div>
-    <p class="balance alert alert-info">
-        <strong class="p-2 m-1">Total Outstanding Payment (PENDING):</strong>
-        {{ outstandingBalance | currency: 'INR' }}
+    <p class="balance alert alert-info d-flex align-items-center justify-content-between">
+        <span>
+            <strong>Total Outstanding Payment (PENDING):</strong>
+            <span class="m-3 badge bg-secondary p-2" style="font-size: 16px;">{{ outstandingBalance | currency: 'INR' }}</span>
+        </span>
+        <button class="btn btn-primary" (click)="downloadPDF()">Download PDF</button>
     </p>
 
     <div class="table-responsive">
@@ -29,9 +32,11 @@
                     <th>Payment Date</th>
                     <th>
                         Status
-                        <button class="btn btn-sm btn-link" (click)="toggleStatusFilter()">
-                            <i style="background-color: black;"
-                                [ngClass]="{'bi bi-caret-down-fill': !isFilteringPending, 'bi bi-caret-up-fill': isFilteringPending}"></i>
+                        <button class="btn btn-sm btn-link d-flex align-items-center justify-content-center" (click)="toggleStatusFilter()" style="padding: 0;">
+                            <i class="bi" 
+                               [ngClass]="{'bi-caret-down-fill': !isFilteringPending, 'bi-caret-up-fill': isFilteringPending}" 
+                               style="background-color: black; display: inline-block; width: 16px; height: 16px; text-align: center;">
+                            </i>
                         </button>
                     </th>
                     <th>Actions</th>
@@ -88,7 +93,9 @@
     </div>
 </div>
 <div *ngIf="isPaymentModalVisible">
-    <app-payment [repaymentId]="repaymentId" [amountDue]="amountDue" [userId]="userId"
-        (paymentCompleted)="onPaymentCompleted($event)" (paymentCancelled)="onPaymentCancelled()">
+    <app-payment [repaymentId]="repaymentId"
+        [amountDue]="amountDue" [userId]="userId"
+        (paymentCompleted)="onPaymentCompleted($event)" 
+        (paymentCancelled)="onPaymentCancelled()">
     </app-payment>
 </div>

@@ -39,8 +39,8 @@
 
  .table {
   border-collapse: separate;
-  border-spacing: 0 10px; /* Increased horizontal spacing between cells */
-  width: 100%; /* Make the table take full width */
+  border-spacing: 0 10px; 
+  width: 100%; 
  }
 
  .table thead th {
@@ -83,7 +83,7 @@
   background-color: #218838;
  }
 
- /* Animations */
+
  @keyframes fadeIn {
   from {
    opacity: 0;
@@ -106,14 +106,14 @@
   }
  }
 
- /* Responsive Table Styling */
+
  @media (max-width: 768px) {
   .table {
-   border-spacing: 0; /* Remove horizontal spacing on smaller screens */
+   border-spacing: 0; 
   }
 
   .table thead {
-   display: none; /* Hide table headers on small screens */
+   display: none; 
   }
 
   .table tbody tr {
@@ -121,7 +121,7 @@
    margin-bottom: 15px;
    border: 1px solid #dee2e6;
    border-radius: 5px;
-   box-shadow: none; /* Remove row shadow on small screens */
+   box-shadow: none; 
   }
 
   .table tbody td {
@@ -146,21 +146,21 @@
   }
 
   .table tbody td:empty::before {
-   content: none; /* Hide label for empty cells */
+   content: none; 
   }
  }
 
- /* Scrollable Table for Extra Small Screens */
+
  @media (max-width: 576px) {
   .table-responsive {
    overflow-x: auto;
   }
 
   .table {
-   width: auto; /* Allow table to scroll horizontally */
+   width: auto; 
   }
 
-  /* Revert to a more standard table layout within the scrollable container */
+ 
   .table thead {
    display: table-header-group;
   }
