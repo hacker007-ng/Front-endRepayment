@@ -24,7 +24,6 @@ export class PaymentComponent {
     paymentInProgress = false;
     paymentSuccess = false;
 
-    showSuccessAlert = false;
 
     currentStep: 'selection' | 'details' | 'processing' | 'success'| 'Failed' = 'selection';
 
@@ -59,7 +58,6 @@ export class PaymentComponent {
                             this.paymentInProgress = false;
                             this.paymentSuccess = true;
                             this.currentStep = 'success';
-                            this.showSuccessAlert = true;
                             this.paymentCompleted.emit(this.repaymentId);
                         },
                         error: (error) => {
@@ -75,6 +73,9 @@ export class PaymentComponent {
                         }
                     });
                 }, 5000);
+                setTimeout(() => {
+                    this.currentStep ="success";
+                }, 3000);
             }
         } else {
             alert('Please select a payment option.');
@@ -114,7 +115,6 @@ export class PaymentComponent {
         this.paymentInProgress = false;
         this.paymentSuccess = false;
         this.currentStep = 'selection';
-        this.showSuccessAlert = false;
         this.creditCardDetails = { cardholderName: '', cardNumber: '', expiry: '', cvv: '' };
         this.debitCardDetails = { cardholderName: '', cardNumber: '', expiry: '', cvv: '' };
         this.upiDetails = { upiId: '' };

@@ -71,7 +71,7 @@ export class RepaymentComponent implements OnInit {
   }
 
   onPaymentCompleted(repaymentId: number): void {
-    alert(`Payment for repayment ID ${repaymentId} completed successfully.`);
+    console.log(repaymentId);
     this.isPaymentModalVisible = false;
     this.loadRepaymentSchedule();
     this.loadOutstandingBalance();
