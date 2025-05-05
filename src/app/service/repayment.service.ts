@@ -11,11 +11,11 @@ export class RepaymentService {
 
   constructor(private http: HttpClient) {}
 
+
   getRepaymentSchedule(userId: string): Observable<TableRepayment[]> {
     return this.http.get<TableRepayment[]>(`${this.apiUrl}/schedule/${userId}`);
   }
 
-  
   makePayment(userId: string, repaymentId: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/payment/${userId}/${repaymentId}`, {}).pipe(
       catchError((error) => {
@@ -24,10 +24,9 @@ export class RepaymentService {
       })
     );
   }
+
   getOutstandingBalance(userId: string): Observable<{ outstandingBalance: number }> {
-    console.log("getoustandingbalance is called "+ userId);
     return this.http.get<{ outstandingBalance: number }>(`${this.apiUrl}/balance/${userId}`);
-    
   }
  
 }

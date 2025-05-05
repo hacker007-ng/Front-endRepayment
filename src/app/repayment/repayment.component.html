@@ -5,9 +5,9 @@
         <label for="userSelect" class="form-label">Select User:</label>
         <select id="userSelect" [(ngModel)]="userId" name="userId"
             (change)="loadRepaymentSchedule(); loadOutstandingBalance()" class="form-select">
-            <option value="user1@gmail.com">user1gmail.com</option>
-            <option value="user2@gmail.com">user2gmail.com</option>
-            <option value="user3@gmail.com">user3gmail.com</option>
+            <option value="user1@gmail.com">user1</option>
+            <option value="user2@gmail.com">user2</option>
+            <option value="user3@gmail.com">user3</option>
         </select>
     </div>
     <p class="balance alert alert-info d-flex align-items-center justify-content-between">
@@ -15,7 +15,7 @@
             <strong>Total Outstanding Payment (PENDING):</strong>
             <span class="m-3 badge bg-secondary p-2" style="font-size: 16px;">{{ outstandingBalance | currency: 'INR' }}</span>
         </span>
-        <button class="btn btn-primary" (click)="downloadPDF()">Download PDF</button>
+        <button class="btn btn-primary" [disabled]="!filteredRepayments || filteredRepayments.length === 0" (click)="downloadPDF()">Download PDF</button>
     </p>
 
     <div class="table-responsive">

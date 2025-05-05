@@ -50,7 +50,6 @@ export class PaymentComponent {
             this.paymentInProgress = true;
 
             if (this.repaymentId) {
-                console.log('Simulating payment delay...');
                 setTimeout(() => {
                     this.repaymentService.makePayment(this.userId, this.repaymentId).subscribe({
                         next: (response) => {
@@ -69,7 +68,7 @@ export class PaymentComponent {
                             alert('Payment failed. Please try again.');
                         },
                         complete: () => {
-                            console.log('Payment API call completed.');
+                            this.currentStep = 'selection';
                         }
                     });
                 }, 5000);

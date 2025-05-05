@@ -150,17 +150,14 @@
   }
  }
 
-
  @media (max-width: 576px) {
   .table-responsive {
    overflow-x: auto;
   }
-
   .table {
    width: auto; 
   }
 
- 
   .table thead {
    display: table-header-group;
   }
