@@ -8,9 +8,7 @@ import { TableRepayment } from '../models/repayment.model';
 })
 export class RepaymentService {
   private apiUrl = 'http://localhost:4000/api/repayments'; 
-
   constructor(private http: HttpClient) {}
-
 
   getRepaymentSchedule(userId: string): Observable<TableRepayment[]> {
     return this.http.get<TableRepayment[]>(`${this.apiUrl}/schedule/${userId}`).pipe(
