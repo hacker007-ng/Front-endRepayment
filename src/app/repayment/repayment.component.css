@@ -1,3 +1,6 @@
+@import "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css";
+@import "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css";
+
 .container {
   background-color: #f8f9fa;
   padding: 30px;
@@ -7,6 +10,19 @@
   opacity: 0;
   transform: translateY(20px);
   animation: fadeIn 0.5s ease-out forwards;
+}
+
+.logout-btn {
+  min-width: 120px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 7px rgba(109, 103, 103, 0.08);
+}
+.logout-btn:hover {
+  box-shadow: 0 4px 14px rgba(244, 127, 127, 0.15);
+  background: #3e3e41a3;
+  color: #fff;
 }
 
 h2 {
@@ -103,36 +119,29 @@ p strong {
   border-radius: 1rem;
   transition: transform 0.2s, box-shadow 0.2s;
 }
-
 .repayment-card:hover {
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 8px 32px rgba(0,0,0,0.15);
 }
-
 .bg-gradient-primary {
   background: linear-gradient(90deg, #0d6efd 0%, #6ea8fe 100%);
   border-radius: 1rem 1rem 0 0 !important;
 }
-
 .card-header {
   border-radius: 1rem 1rem 0 0 !important;
 }
-
 .balance {
   font-size: 1.1rem;
   border-radius: 0.5rem;
   margin-top: 20px;
   margin-bottom: 0;
 }
-
 .badge {
   font-size: 15px;
 }
-
 .table-responsive {
   overflow-x: auto;
 }
-
 
 @keyframes fadeIn {
   from {
@@ -144,7 +153,6 @@ p strong {
     transform: translateY(0);
   }
 }
-
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -155,124 +163,89 @@ p strong {
     transform: translateY(0);
   }
 }
-@media (max-width: 768px) {
-  .table {
-    border-spacing: 0;
-  }
-  .table thead {
-    display: none;
-  }
-  .table tbody tr {
-    display: block;
-    margin-bottom: 15px;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    box-shadow: none;
-  }
-  .table tbody td {
-    display: block;
-    text-align: right;
-    padding-left: 50%;
-    position: relative;
-    border: none;
-    font-size: 14px;
-    min-height: 34px;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  .table tbody td::before {
-    content: attr(data-label);
-    position: absolute;
-    left: 0;
-    padding-left: 15px;
-    font-weight: bold;
-    text-align: left;
-    color: #343a40;
-    font-size: 13px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 50%;
-    white-space: nowrap;
-  }
-  .table tbody td:last-child {
-    padding-bottom: 12px;
-  }
-  .table tbody td:empty::before {
-    content: none;
-  }
+
+.custom-modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.14);
+  z-index: 1060;
+  animation: fadeIn .2s;
+}
+.custom-modal-top-center {
+  position: fixed;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1070;
+  min-width: 320px;
+  max-width: 350px;
+  width: 97vw;
+  background: transparent;
+  outline: none;
+  box-shadow: none;
+  display: block;
+  animation: popupScale .32s cubic-bezier(.43,1.6,.38,.97);
+}
+.custom-modal-content {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 18px rgba(0,0,0,0.18);
+  padding: 20px 24px 16px 24px;
+  min-width: 0;
+  width: 100%;
+  position: relative;
+}
+.custom-modal-body {
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.custom-modal-footer {
+  gap: 0.5rem;
+}
+.custom-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  color: #565656;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 0.18s;
+  z-index: 5;
+}
+.custom-modal-close:hover {
+  opacity: 1;
+  color: #111;
+}
+.custom-modal-top-center:focus {
+  outline: none;
+}
+.custom-modal-top-center.show,
+.custom-modal-backdrop.show {
+  display: block;
+  animation: fadeIn .18s;
+}
+.custom-modal-top-center,
+.custom-modal-backdrop {
+  display: none;
 }
 
-@media (max-width: 576px) {
-  .table-responsive {
-    overflow-x: auto;
-  }
-  .table {
-    width: auto;
-  }
-  .table thead {
-    display: table-header-group;
-  }
-  .table tbody tr {
-    display: table-row;
-    border: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    border-radius: 5px;
-    margin-bottom: 8px;
-  }
-  .table tbody td {
-    display: table-cell;
-    text-align: left;
-    padding-left: inherit;
-    position: static;
-    border-bottom: 1px solid #dee2e6;
-    font-size: 12px;
-    min-height: unset;
-    width: unset;
-  }
-  .table tbody td::before {
-    content: none;
-  }
-  .container {
-    padding: 10px !important;
-    margin-top: 10px !important;
-  }
-  .repayment-card {
-    margin: 0 2px;
-  }
-  .btn, .btn-success, .btn-primary {
-    width: 100%;
-    margin-bottom: 8px;
-  }
-  .balance .badge {
-    font-size: 12px !important;
-    padding: 6px !important;
-  }
+@keyframes popupScale {
+  0% { transform: translateX(-50%) scale(0.85);}
+  80% { transform: translateX(-50%) scale(1.04);}
+  100% { transform: translateX(-50%) scale(1);}
 }
 
 @media (max-width: 400px) {
-  .table tbody td, .table thead th {
-    padding: 8px 6px;
-    font-size: 11px;
+  .custom-modal-top-center {
+    min-width: 0;
+    max-width: 99vw;
+    padding: 0 2vw;
   }
-  .balance .badge {
-    font-size: 10px !important;
-    padding: 4px !important;
-  }
-  .btn, .btn-success, .btn-primary {
-    font-size: 12px;
-    padding: 6px 8px;
-  }
-}
-
-.alert {
-  margin-bottom: 15px;
-  font-size: 15px;
-  border-radius: 0.5rem;
-}
-
-@media (max-width: 992px) {
-  .col-md-8, .col-lg-6 {
-    max-width: 100%;
-    flex: 0 0 100%;
+  .custom-modal-content {
+    padding: 13px 2vw 10px 2vw;
   }
 }

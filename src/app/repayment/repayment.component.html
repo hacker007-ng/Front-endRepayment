@@ -1,5 +1,13 @@
 <div class="container position-sticky" *ngIf="!isPaymentModalVisible">
-    <div *ngIf="errorMessage" class="alert alert-danger text-center justify-content-center position-static">
+    <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+        <div></div>
+        <button class="btn btn-outline-secondary btn-md logout-btn animate__animated animate__fadeInDown"
+            (click)="onLogout()">
+            <i class="bi bi-box-arrow-right me-2"></i>Logout
+        </button>
+    </div>
+    <div *ngIf="errorMessage"
+        class="alert alert-danger text-center justify-content-center position-static animate__animated animate__shakeX">
         {{ errorMessage }}
     </div>
 
@@ -7,22 +15,25 @@
         <div class="col-md-8 col-lg-6">
             <div class="card shadow-lg border-0 repayment-card">
                 <div class="card-header bg-gradient-primary text-white text-center rounded-top">
-                    <h2 class="h2 mb-0 text-dark" >Repayment Details</h2>
+                    <h2 class="h2 mb-0 text-dark">Repayment Details</h2>
                 </div>
                 <div class="card-body bg-light">
                     <h4 class="h4 text-dark mb-3">{{loanType}}</h4>
                     <ul class="list-group list-group-flush mb-3">
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-0">
+                        <li
+                            class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-0">
                             <span>Principal Amount:</span>
-                            <span class="fw-bold text-success">{{principalAmt}}</span>
+                            <span class="fw-bold">{{principalAmt}}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-0">
+                        <li
+                            class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-0">
                             <span>Interest Rate (%):</span>
-                            <span class="fw-bold text-secondary">{{InterestRate}}</span>
+                            <span class="fw-bold">{{InterestRate}}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-0">
-                            <span>period (Monthly):</span>
-                            <span class="fw-bold text-info">{{period}}</span>
+                        <li
+                            class="list-group-item d-flex justify-content-between align-items-center bg-transparent border-0">
+                            <span>Period (Monthly):</span>
+                            <span class="fw-bold">{{period}}</span>
                         </li>
                     </ul>
                 </div>
@@ -34,12 +45,13 @@
             <p class="balance alert alert-info d-flex align-items-center justify-content-between">
                 <span>
                     <strong>Total Outstanding Payment:</strong>
-                    <span class=" badge bg-secondary p-2 mx-4" style="font-size: 16px;">
+                    <span class="badge bg-secondary p-2 mx-4" style="font-size: 16px;">
                         {{ outstandingBalance | currency: 'INR' }}
                     </span>
                 </span>
-                <button class="btn btn-primary" [disabled]="!filteredRepayments || filteredRepayments.length === 0"
-                    (click)="downloadPDF()">
+                <button class="btn btn-primary btn-sm"
+                    [disabled]="!filteredRepayments || filteredRepayments.length === 0" (click)="downloadPDF()">
+                    <i class="bi bi-file-earmark-arrow-down "></i>
                     Download PDF
                 </button>
             </p>
@@ -48,13 +60,13 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="table-responsive">
-                <table class="table table-bordered ">
-                    <thead>
+            <div class="table-responsive animate__animated animate__fadeIn">
+                <table class="table table-bordered align-middle">
+                    <thead class="table-primary">
                         <tr>
                             <th>S.NO</th>
                             <th>Monthly Due</th>
-                            <th>Principal </th>
+                            <th>Principal</th>
                             <th>Interest</th>
                             <th>Balance</th>
                             <th>Due Date</th>
@@ -62,10 +74,10 @@
                             <th>
                                 Status
                                 <button class="btn btn-sm btn-link d-flex align-items-center justify-content-center"
-                                    (click)="toggleStatusFilter()" style="padding: 0;">
+                                    (click)="toggleStatusFilter()" style="padding: 0;" title="Toggle Status Filter">
                                     <i class="bi"
                                         [ngClass]="{'bi-caret-down-fill': !isFilteringPending, 'bi-caret-up-fill': isFilteringPending}"
-                                        style="background-color: black; display: inline-block; width: 16px; height: 16px; text-align: center;">
+                                        style="color: #212529; display: inline-block; width: 16px; height: 16px; text-align: center;">
                                     </i>
                                 </button>
                             </th>
@@ -74,44 +86,47 @@
                     </thead>
                     <tbody>
                         <tr *ngIf="!filteredRepayments || filteredRepayments.length === 0">
-                            <td colspan="10" class="text-center">No Data Available</td>
+                            <td colspan="10" class="text-center text-muted">No Data Available</td>
                         </tr>
                         <tr *ngFor="let repayment of filteredRepayments; let i = index">
                             <td data-label="S.NO">{{ i + 1 }}</td>
                             <td data-label="MonthlyDue">{{ repayment.monthPay }}</td>
-                            <td data-label="Principal Repayment">
-                                {{ repayment.principalRepayment | currency: 'INR' }}
+                            <td data-label="Principal Repayment">{{ repayment.principalRepayment | currency: 'INR' }}
                             </td>
-                            <td data-label="Interest">{{ repayment.interest | currency: 'INR' }}
-                            </td>
-                            <td data-label="Outstanding Balance">
-                                {{ repayment.outstandingBalance | currency: 'INR' }}
+                            <td data-label="Interest">{{ repayment.interest | currency: 'INR' }}</td>
+                            <td data-label="Outstanding Balance">{{ repayment.outstandingBalance | currency: 'INR' }}
                             </td>
                             <td data-label="Due Date">
                                 <span class="badge bg-secondary" style="font-size: 14px;">
                                     {{ repayment.dueDate | date: 'yyyy-MM-dd' }}
                                 </span>
                             </td>
-                            <td data-label="Payment Date" >
-                                <span class="badge bg-success" style="font-size: 14px;" *ngIf="repayment.paymentDate">
+                            <td data-label="Payment Date">
+                                <span *ngIf="repayment.paymentDate">
                                     {{ (repayment.paymentDate | date: 'yyyy-MM-dd') }}
                                 </span>
-                                <span *ngIf="!repayment.paymentDate" class="text-center justify-content-center d-flex">-</span>
+                                <span *ngIf="!repayment.paymentDate"
+                                    class="text-center justify-content-center d-flex">-</span>
                             </td>
                             <td data-label="Status">
-                                <span >{{ repayment.status }}
+                                <span class="badge" [ngClass]="{
+                                        'bg-secondary text-white': repayment.status === 'DUE',
+                                        'bg-success text-white': repayment.status === 'COMPLETED'
+                                    }">
+                                    {{ repayment.status }}
                                 </span>
                             </td>
                             <td data-label="Actions">
                                 <ng-container *ngIf="repayment.status === 'DUE'; else paidTemplate">
                                     <button [disabled]="!canMakePayment(i)"
                                         (click)="makePayment(repayment.repaymentId, repayment.monthPay, userId)"
-                                        class="btn btn-success btn-sm">
+                                        class="btn btn-success btn-sm animate__animated animate__pulse animate__infinite">
+                                        <i class="bi bi-currency-rupee"></i>
                                         <span class="badge">Pay Now</span>
                                     </button>
                                 </ng-container>
                                 <ng-template #paidTemplate>
-                                    <span>Paid</span>
+                                    <span class="fw-bold">Paid</span>
                                 </ng-template>
                             </td>
                         </tr>
@@ -122,10 +137,27 @@
     </div>
 </div>
 
+<!-- Custom Logout Modal (top center, minimal colors, animated popup, with cross) -->
+<div class="custom-modal-backdrop" *ngIf="showLogoutModal"></div>
+<div class="custom-modal-top-center animate__animated"
+    [ngClass]="{'animate__fadeInDown': showLogoutModal, 'show': showLogoutModal}" *ngIf="showLogoutModal" tabindex="-1"
+    aria-modal="true" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="false">
+    <div class="custom-modal-content">
+        <button type="button" class="custom-modal-close" (click)="hideLogoutModal()" aria-label="Close">
+            <i class="bi bi-x-lg "></i>
+        </button>
+        <div class="custom-modal-body text-center mt-4">
+            <span class="fs-5">Are you sure you want to log out?</span>
+        </div>
+        <div class="custom-modal-footer d-flex justify-content-end">
+            <button type="button" class="btn btn-light me-2 px-4" (click)="hideLogoutModal()">Cancel</button>
+            <button type="button" class="btn btn-dark px-4" (click)="confirmLogout()">Logout</button>
+        </div>
+    </div>
+</div>
+
 <div *ngIf="isPaymentModalVisible">
-    <app-payment [repaymentId]="repaymentId" 
-    [amountDue]="amountDue" 
-    [userId]="userId"
-    (paymentCompleted)="onPaymentCompleted($event)" (paymentCancelled)="onPaymentCancelled()">
+    <app-payment [repaymentId]="repaymentId" [amountDue]="amountDue" [userId]="userId"
+        (paymentCompleted)="onPaymentCompleted($event)" (paymentCancelled)="onPaymentCancelled()">
     </app-payment>
 </div>
