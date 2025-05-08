@@ -249,3 +249,51 @@ p strong {
     padding: 13px 2vw 10px 2vw;
   }
 }
+
+.repayment-card {
+  border-radius: 1.2rem;
+  overflow: hidden;
+  background: rgba(255,255,255, 0.8);
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.10);
+  backdrop-filter: blur(4px);
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(90deg, #97bbfe 0%, #4a82e4 100%);
+  border-radius: 1.2rem 1.2rem 0 0 !important;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.repayment-glass-bg {
+  background: rgba(255,255,255, 0.6);
+  border-radius: 0 0 1.2rem 1.2rem;
+  backdrop-filter: blur(2px);
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.04);
+}
+
+.letter-spacing-1 {
+  letter-spacing: 1.5px;
+}
+
+.card-header .bi {
+  opacity: 0.2;
+}
+
+.list-group-item {
+  font-size: 1.12rem;
+  padding: 0.85rem 0.5rem;
+  border: none;
+}
+
+.text-success {
+  color: #20c997!important;
+}
+.text-primary {
+  color: #2a5298!important;
+}
+.text-info {
+  color: #17a2b8!important;
+}

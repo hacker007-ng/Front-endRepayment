@@ -6,7 +6,6 @@ import jsPDF from 'jspdf';
 import { Router } from '@angular/router';
 import { PaymentComponent } from '../payment/payment.component';
 
-declare var bootstrap: any;
 
 @Component({
   selector: 'app-repayment',
@@ -15,6 +14,7 @@ declare var bootstrap: any;
   templateUrl: './repayment.component.html',
   styleUrls: ['./repayment.component.css']
 })
+
 export class RepaymentComponent implements OnInit {
   repaymentId?: number;
   amountDue?: number;
@@ -26,7 +26,7 @@ export class RepaymentComponent implements OnInit {
   userId = 'user1@gmail.com';
   userIds!: string;
   isFilteringPending = false;
-  errorMessage: string | null = null; 
+  errorMessage: string | null = null;
   loanType!: string;
   principalAmt!: number;
   InterestRate!: number;
@@ -79,13 +79,15 @@ export class RepaymentComponent implements OnInit {
         this.principalAmt = this.repayments.principalAmount;
         this.InterestRate = this.repayments.interestRate;
         this.period = this.repayments.period;
-        if (this.repayments.applicationId === "PL-7840"){
+
+        if (this.repayments.applicationId === "PL-7840") {
           this.loanType = "Personal Loan";
-        } else if (this.repayments.applicationId === "VL-5678"){
+        } else if (this.repayments.applicationId === "VL-5678") {
           this.loanType = "Vehicle Loan";
         } else {
           this.loanType = "Home Loan";
         }
+
         this.repayments = this.repayments.tableRepayment;
         this.filteredRepayments = [...this.repayments];
       },
@@ -93,10 +95,10 @@ export class RepaymentComponent implements OnInit {
         this.errorMessage = 'Failed to load repayment schedule. Please try again later.';
         setTimeout(() => (this.errorMessage = null), 3000);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
-  
+
 
   loadOutstandingBalance(): void {
     this.repaymentService.getOutstandingBalance(this.userId).subscribe({
@@ -107,7 +109,7 @@ export class RepaymentComponent implements OnInit {
         this.errorMessage = 'Failed to load outstanding balance. Please try again later.';
         setTimeout(() => (this.errorMessage = null), 3000);
       },
-      complete: () => {},
+      complete: () => { },
     });
   }
 
@@ -118,8 +120,7 @@ export class RepaymentComponent implements OnInit {
     this.userId = userId;
   }
 
-  onPaymentCompleted(repaymentId: number): void {
-    console.log(repaymentId);
+  onPaymentCompleted(): void {
     this.isPaymentModalVisible = false;
     this.loadRepaymentSchedule();
     this.loadOutstandingBalance();
@@ -138,67 +139,67 @@ export class RepaymentComponent implements OnInit {
 
   downloadPDF(): void {
     const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-  
+
     doc.setDrawColor(180);
     doc.rect(5, 5, 200, 287, 'S');
-  
+
     doc.setFontSize(28);
     doc.setFont('times', 'bold');
     doc.setTextColor(25, 25, 112);
     doc.text('Repayment Details', 12, 26);
-  
+
     doc.setDrawColor(25, 25, 112);
     doc.setLineWidth(1);
     doc.line(12, 28, 110, 28);
-  
+
     doc.setFontSize(14);
     doc.setTextColor(30, 30, 60);
-  
+
     let leftY = 38;
     let rightY = 38;
     const leftX = 12;
     const rightX = 115;
-  
+
     doc.setFont('times', 'bold');
     doc.text('User:', leftX, leftY);
     doc.text('Principal:', rightX, rightY);
-  
+
     leftY += 8;
     rightY += 8;
     doc.text('Email:', leftX, leftY);
     doc.text('Interest Rate:', rightX, rightY);
-  
+
     leftY += 8;
     rightY += 8;
     doc.text('Loan Type:', leftX, leftY);
     doc.text('Outstanding Balance:', rightX, rightY);
-  
+
     leftY += 8;
     doc.text('Period (Monthly):', leftX, leftY);
-  
+
     doc.setFont('times', 'normal');
     leftY = 38;
     rightY = 38;
     doc.text(`${this.userId.split('@')[0]}`, leftX + 28, leftY);
     doc.text(`Rs ${this.principalAmt.toFixed(2)}`, rightX + 33, rightY);
-  
+
     leftY += 8;
     rightY += 8;
     doc.text(`${this.userId}`, leftX + 28, leftY);
     doc.text(`${this.InterestRate}%`, rightX + 33, rightY);
-  
+
     leftY += 8;
     rightY += 8;
     doc.text(`${this.loanType}`, leftX + 28, leftY);
     doc.text(`Rs ${this.outstandingBalance.toFixed(2)}`, rightX + 60, rightY);
-  
+
     leftY += 8;
     doc.text(`${this.period}`, leftX + 42, leftY);
-  
+
     doc.setFontSize(10);
     doc.setTextColor(120, 120, 120);
     doc.text(`Exported: ${new Date().toLocaleString()}`, 12, leftY + 8);
-  
+
     const headers = [
       'S.NO',
       'Amount Due',
@@ -214,7 +215,7 @@ export class RepaymentComponent implements OnInit {
     let startY = leftY + 14;
     const cellHeight = 10;
     const fontSize = 11;
-  
+
     let headerX = startX;
     doc.setFontSize(fontSize);
     headers.forEach((header, index) => {
@@ -224,11 +225,11 @@ export class RepaymentComponent implements OnInit {
       doc.text(header, headerX + 2, startY + 7);
       headerX += columnWidths[index];
     });
-  
+
     doc.setFont('times', 'normal');
     doc.setFontSize(10);
     startY += cellHeight;
-  
+
     this.filteredRepayments.forEach((repayment: any, rowIndex: number) => {
       if (rowIndex % 2 === 1) {
         let rowX = startX;
@@ -276,7 +277,7 @@ export class RepaymentComponent implements OnInit {
         cellX += columnWidths[colIndex];
       });
       startY += cellHeight;
-  
+
       if (startY + cellHeight > doc.internal.pageSize.height - 15) {
         doc.setFontSize(9);
         doc.setTextColor(120, 120, 120);
@@ -285,11 +286,11 @@ export class RepaymentComponent implements OnInit {
         startY = 10;
       }
     });
-  
+
     doc.setFontSize(9);
     doc.setTextColor(120, 120, 120);
     doc.text(`Page 1`, doc.internal.pageSize.width - 25, doc.internal.pageSize.height - 8);
-  
+
     doc.save(`${this.userId.split('@')[0]}_RepaymentDetails.pdf`);
   }
 }
