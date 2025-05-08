@@ -6,14 +6,12 @@ import jsPDF from 'jspdf';
 import { Router } from '@angular/router';
 import { PaymentComponent } from '../payment/payment.component';
 
-declare var bootstrap: any;
-
 @Component({
   selector: 'app-repayment',
   standalone: true,
   imports: [CommonModule, FormsModule, PaymentComponent],
   templateUrl: './repayment.component.html',
-  styleUrls: ['./repayment.component.css'],
+  styleUrls: ['./repayment.component.css']
 })
 export class RepaymentComponent implements OnInit {
   repaymentId?: number;
@@ -26,6 +24,10 @@ export class RepaymentComponent implements OnInit {
   userIds!: string;
   isFilteringPending = false;
   errorMessage: string | null = null; 
+  loanType!: string;
+  principalAmt!: number;
+  InterestRate!: number;
+  period!: number;
 
   constructor(private router: Router, private repaymentService: RepaymentService) { }
 
@@ -38,27 +40,18 @@ export class RepaymentComponent implements OnInit {
     this.loadOutstandingBalance();
   }
 
-  logout(): void {
-    localStorage.removeItem('user');
-    this.router.navigate(['/']);
-  }
-
-  showLogoutModal(): void {
-    const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
-    logoutModal.show();
-  }
 
   toggleStatusFilter(): void {
     this.isFilteringPending = !this.isFilteringPending;
-    this.filterByStatus(this.isFilteringPending ? 'PENDING' : 'ALL');
+    this.filterByStatus(this.isFilteringPending ? 'DUE' : 'ALL');
   }
 
   filterByStatus(status: string): void {
     if (status === 'ALL') {
       this.filteredRepayments = [...this.repayments];
-    } else if (status === 'PENDING') {
+    } else if (status === 'DUE') {
       this.filteredRepayments = this.repayments.filter(
-        (repayment: { status: string; }) => repayment.status === 'PENDING'
+        (repayment: { status: string; }) => repayment.status === 'DUE'
       );
     }
   }
@@ -67,16 +60,24 @@ export class RepaymentComponent implements OnInit {
     this.repaymentService.getRepaymentSchedule(this.userId).subscribe({
       next: (data) => {
         this.repayments = data;
+        this.principalAmt = this.repayments.principalAmount;
+        this.InterestRate = this.repayments.interestRate;
+        this.period = this.repayments.period;
+        if (this.repayments.applicationId === "PL-7840"){
+          this.loanType = "Personal Loan";
+        } else if (this.repayments.applicationId === "VL-5678"){
+          this.loanType = "Vehicle Loan";
+        } else {
+          this.loanType = "Home Loan";
+        }
         this.repayments = this.repayments.tableRepayment;
         this.filteredRepayments = [...this.repayments];
       },
-      error: (error) => {
+      error: () => {
         this.errorMessage = 'Failed to load repayment schedule. Please try again later.';
         setTimeout(() => (this.errorMessage = null), 3000);
       },
-      complete: () => {
-        console.log('Repayment schedule loaded successfully.');
-      },
+      complete: () => {},
     });
   }
   
@@ -85,13 +86,11 @@ export class RepaymentComponent implements OnInit {
       next: (data) => {
         this.outstandingBalance = data.outstandingBalance;
       },
-      error: (error) => {
+      error: () => {
         this.errorMessage = 'Failed to load outstanding balance. Please try again later.';
         setTimeout(() => (this.errorMessage = null), 3000);
       },
-      complete: () => {
-        console.log('Outstanding balance loaded successfully.');
-      },
+      complete: () => {},
     });
   }
 
@@ -139,7 +138,7 @@ export class RepaymentComponent implements OnInit {
     doc.setFont('times', 'bold');
     doc.text(`Outstanding Balance:`, 120, 25);
     doc.setFont('times', 'normal');
-    doc.text("Rs: " + `${this.outstandingBalance}`, 170, 25);
+    doc.text("Rs: " + `${this.outstandingBalance.toFixed(2)}`, 170, 25);
 
     const headers = [
       'S.NO',

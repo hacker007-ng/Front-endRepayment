@@ -5,12 +5,13 @@ body {
     padding: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow: auto !important;
-  }
+    background-color: #3a6cc7 !important;
+}
   body.modal-open {
-    overflow: auto !important; /* Allow scrolling */
-    padding-right: 0 !important; /* Remove padding added by modal */
+    overflow: auto !important; 
+    padding-right: 0 !important; 
   }
   
   .modal-backdrop {
-    display: none !important; /* Hide any leftover modal backdrops */
+    display: none !important; 
   }

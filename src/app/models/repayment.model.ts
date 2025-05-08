@@ -1,12 +1,13 @@
-// TableRepayment represents each repayment in the repayment schedule
+
 export interface TableRepayment {
     repaymentId?: string;
     month?: number;
     principalRepayment?: number;
     interest?: number;
     outstandingBalance?: number;
-    status?: 'PENDING' | 'COMPLETED';
-    _id?: string
+    status?: 'COMPLETED' | 'DUE';
+    _id?: string,
+    dueDate?: Date | string
   }
   
  

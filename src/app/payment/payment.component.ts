@@ -52,8 +52,7 @@ export class PaymentComponent {
             if (this.repaymentId) {
                 setTimeout(() => {
                     this.repaymentService.makePayment(this.userId, this.repaymentId).subscribe({
-                        next: (response) => {
-                            console.log('Payment successful:', response);
+                        next: () => {
                             this.paymentInProgress = false;
                             this.paymentSuccess = true;
                             this.currentStep = 'success';
