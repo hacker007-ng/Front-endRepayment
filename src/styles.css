@@ -1,11 +1,11 @@
-/* Default styles for the application */
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     transition: background-color 0.3s ease, color 0.3s ease;
     overflow: auto !important;
-    background-color: #3a6cc7 !important;
+    background-color: #4b7cd7 !important;
 }
   body.modal-open {
     overflow: auto !important; 

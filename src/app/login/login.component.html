@@ -1,6 +1,5 @@
 <div class="container d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4 shadow-lg" style="width: 100%; max-width: 400px;">
-      <!-- Error Alert (Top) -->
       <div
         *ngIf="showAlert && !isSuccessAlert"
         class="alert alert-danger alert-dismissible fade show"
@@ -45,7 +44,6 @@
         <button type="submit" class="btn btn-primary w-100">Login</button>
       </form>
   
-      <!-- Success Alert (Bottom) -->
       <div
         *ngIf="showAlert && isSuccessAlert"
         class="alert alert-success alert-dismissible fade show mt-3"

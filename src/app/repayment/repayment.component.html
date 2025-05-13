@@ -126,7 +126,7 @@
                                         (click)="makePayment(repayment.repaymentId, repayment.monthPay, userId)"
                                         class="btn btn-success btn-sm animate__animated animate__pulse animate__infinite">
                                         <i class="bi bi-currency-rupee"></i>
-                                        <span class="badge">Pay Now</span>
+                                        <span class="badge">Pay</span>
                                     </button>
                                 </ng-container>
                                 <ng-template #paidTemplate>
@@ -160,7 +160,10 @@
 </div>
 
 <div *ngIf="isPaymentModalVisible">
-    <app-payment [repaymentId]="repaymentId" [amountDue]="amountDue" [userId]="userId"
-        (paymentCompleted)="onPaymentCompleted($event)" (paymentCancelled)="onPaymentCancelled()">
+    <app-payment 
+    [repaymentId]="repaymentId" 
+    [amountDue]="amountDue" 
+    [userId]="userId"
+    (paymentCompleted)="onPaymentCompleted($event)" (paymentCancelled)="onPaymentCancelled()">
     </app-payment>
 </div>

@@ -24,7 +24,6 @@ export class RepaymentComponent implements OnInit {
   isPaymentModalVisible = false;
   outstandingBalance = 0;
   userId = 'user1@gmail.com';
-  userIds!: string;
   isFilteringPending = false;
   errorMessage: string | null = null;
   loanType!: string;
@@ -80,9 +79,9 @@ export class RepaymentComponent implements OnInit {
         this.InterestRate = this.repayments.interestRate;
         this.period = this.repayments.period;
 
-        if (this.repayments.applicationId === "PL-7840") {
+        if (this.repayments.applicationId.split('-')[0] === "PL") {
           this.loanType = "Personal Loan";
-        } else if (this.repayments.applicationId === "VL-5678") {
+        } else if (this.repayments.applicationId.split('-')[0] === "VL") {
           this.loanType = "Vehicle Loan";
         } else {
           this.loanType = "Home Loan";
@@ -120,7 +119,7 @@ export class RepaymentComponent implements OnInit {
     this.userId = userId;
   }
 
-  onPaymentCompleted(): void {
+  onPaymentCompleted(repayment?: number): void {
     this.isPaymentModalVisible = false;
     this.loadRepaymentSchedule();
     this.loadOutstandingBalance();
