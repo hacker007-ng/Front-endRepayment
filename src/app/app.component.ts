@@ -11,12 +11,9 @@ import { RouterModule, Router } from '@angular/router';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-
-  constructor(private router: Router) { }
+  
+  constructor() { }
   title = 'loan-repayment-app';
 
-  // onUserLogin(): void {
-  //   this.router.navigate(['/repayment']);
-  // }
 
 }
