@@ -8,11 +8,10 @@ import { PaymentComponent } from '../payment/payment.component';
 
 
 @Component({
-  selector: 'app-repayment',
-  standalone: true,
-  imports: [CommonModule, FormsModule, PaymentComponent],
-  templateUrl: './repayment.component.html',
-  styleUrls: ['./repayment.component.css']
+    selector: 'app-repayment',
+    imports: [CommonModule, FormsModule, PaymentComponent],
+    templateUrl: './repayment.component.html',
+    styleUrls: ['./repayment.component.css']
 })
 
 export class RepaymentComponent implements OnInit {

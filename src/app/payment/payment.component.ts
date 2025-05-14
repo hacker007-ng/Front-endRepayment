@@ -10,6 +10,7 @@ import { RepaymentService } from '../service/repayment.service';
     templateUrl: './payment.component.html',
     styleUrls: ['./payment.component.css']
 })
+
 export class PaymentComponent {
     @Input() repaymentId?: any;
     @Input() userId?: any;
