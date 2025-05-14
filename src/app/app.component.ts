@@ -15,8 +15,8 @@ export class AppComponent {
   constructor(private router: Router) { }
   title = 'loan-repayment-app';
 
-  onUserLogin(): void {
-    this.router.navigate(['/repayment']);
-  }
+  // onUserLogin(): void {
+  //   this.router.navigate(['/repayment']);
+  // }
 
 }

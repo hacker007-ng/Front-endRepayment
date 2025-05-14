@@ -259,7 +259,7 @@ p strong {
 }
 
 .bg-gradient-primary {
-  background: linear-gradient(90deg, #97bbfe 0%, #4a82e4 100%);
+  background: linear-gradient(90deg, #6999f2 0%, #4485f7 100%);
   border-radius: 1.2rem 1.2rem 0 0 !important;
   min-height: 64px;
   display: flex;

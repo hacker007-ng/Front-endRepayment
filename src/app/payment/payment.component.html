@@ -83,9 +83,9 @@
                         <input type="text" id="upiId" [(ngModel)]="upiDetails.upiId" name="upiId" class="form-control"
                             required pattern="^[a-zA-Z0-9.\-_]{2,}@[a-zA-Z]{2,}$" #upiId="ngModel"
                             [ngClass]="{'is-invalid': upiId.invalid && upiId.touched}">
-                        <small class="form-text text-muted">e.g., yournamepaytm, yourmobileupi</small>
+                        <small class="form-text text-muted">e.g., yourname{{atTheRate}}paytm, yourmobile{{atTheRate}}upi</small>
                         <div *ngIf="upiId.invalid && upiId.touched" class="invalid-feedback">
-                            Enter a valid UPI ID (e.g., name_bank).
+                            Enter a valid UPI ID (e.g., name{{atTheRate}}bank).
                         </div>
                     </div>
                     <div class="mb-3" *ngIf="selectedPaymentOption === 'Net Banking'">

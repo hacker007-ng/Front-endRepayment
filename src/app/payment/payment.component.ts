@@ -16,7 +16,7 @@ export class PaymentComponent {
     @Input() amountDue?: number;
     @Output() paymentCompleted = new EventEmitter<number>();
     @Output() paymentCancelled = new EventEmitter<void>();
-
+    atTheRate= '@';
     constructor(private repaymentService: RepaymentService) { }
 
     paymentOptions: string[] = ['Credit Card', 'Debit Card', 'UPI', 'Net Banking', 'Wallet'];
